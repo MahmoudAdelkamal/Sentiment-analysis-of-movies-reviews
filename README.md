@@ -1,2 +1,2 @@
 # Sentiment-analysis-of-movies-reviews
-Sentiment analysis of movies reviews using NLP concepts
+NLP-based project that classifies movies reviews whether they are positive or negative.
