@@ -39,7 +39,13 @@ def remove_stop_words(dataset):
 
     stop_words = set(stopwords.words("english"))
     for i in range(len(dataset)):
-        dataset[i] = [word for word in dataset[i] if word not in stop_words]
+        dataset[i] = [word for word in dataset[i] if word.casefold() not in stop_words]
+    return dataset
+
+def remove_numbers(dataset):
+    for i in range(len(dataset)):
+        dataset[i] = re.sub("\d+",' ', dataset[i])
+        dataset[i] = word_tokenize(dataset[i])
     return dataset
 
 def remove_punctuation(dataset):
@@ -60,27 +66,7 @@ def stemming(dataset):
 def preprocess(dataset):
 
     dataset = remove_punctuation(dataset)
+    dataset = remove_numbers(dataset)
     dataset = remove_stop_words(dataset)
     dataset = stemming(dataset)
     return dataset
-
-positive_dataset, negative_dataset = load_dataset()
-preprocess(positive_dataset)
-positive_dataset = pd.DataFrame(positive_dataset)
-positive_dataset.columns = ['Review']
-positive_dataset['Label'] = ["pos" for i in range(1000)]
-
-preprocess(negative_dataset)
-negative_dataset = pd.DataFrame(negative_dataset)
-negative_dataset.columns = ['Review']
-negative_dataset['Label'] = ["neg" for i in range(1000)]
-
-dataset = pd.concat([positive_dataset,negative_dataset],ignore_index=True,sort=False)
-
-kf=KFold(n_splits=20,random_state=1,shuffle=True)
-for train_index,test_index in kf.split(dataset):
-    x = dataset['Review']
-    y = dataset['Label']
-    x_train , x_test, y_train , y_test= x[train_index],x[test_index],y[train_index],y[test_index]
-
-print(len(x_train),len(x_test))
