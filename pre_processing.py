@@ -7,7 +7,6 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem.porter import PorterStemmer
 
-
 def read_text_file(file_path):
 
     file = ""
@@ -26,8 +25,8 @@ def read_files(path):
 
 def load_dataset() :
 
-    negative_dataset_path = "D:\\college material\\4th year\\2nd term\\NLP\\txt_sentoken\\neg"
-    positive_dataset_path = "D:\\college material\\4th year\\2nd term\\NLP\\txt_sentoken\\pos"
+    negative_dataset_path = "D:\college material\\4th year\\2nd term\\NLP\\Sentiment-analysis-of-movies-reviews\\txt_sentoken\\neg"
+    positive_dataset_path = "D:\college material\\4th year\\2nd term\\NLP\\Sentiment-analysis-of-movies-reviews\\txt_sentoken\\pos"
     os.chdir(negative_dataset_path)
     negative_dataset = read_files(negative_dataset_path)
     os.chdir(positive_dataset_path)
@@ -45,7 +44,7 @@ def remove_stop_words(dataset):
 def remove_numbers(dataset):
     for i in range(len(dataset)):
         dataset[i] = re.sub("\d+",' ', dataset[i])
-        dataset[i] = word_tokenize(dataset[i])
+        #dataset[i] = word_tokenize(dataset[i])
     return dataset
 
 def remove_punctuation(dataset):
@@ -65,8 +64,8 @@ def stemming(dataset):
 
 def preprocess(dataset):
 
-    dataset = remove_punctuation(dataset)
     dataset = remove_numbers(dataset)
+    dataset = remove_punctuation(dataset)
     dataset = remove_stop_words(dataset)
     dataset = stemming(dataset)
     return dataset
