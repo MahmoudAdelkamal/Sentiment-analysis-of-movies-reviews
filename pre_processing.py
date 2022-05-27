@@ -1,5 +1,7 @@
 import os
 import re
+from sklearn.utils import shuffle
+
 import pandas as pd
 import nltk
 from sklearn.model_selection import KFold
@@ -68,4 +70,20 @@ def preprocess(dataset):
     dataset = remove_punctuation(dataset)
     dataset = remove_stop_words(dataset)
     dataset = stemming(dataset)
+    return dataset
+
+
+def prepare_dataset():
+
+    positive_dataset, negative_dataset = load_dataset()
+    positive_dataset = preprocess(positive_dataset)
+    positive_dataset = pd.DataFrame(positive_dataset)
+    positive_dataset.columns = ['Review']
+    positive_dataset['Label'] = ["pos" for i in range(1000)]
+    negative_dataset = preprocess(negative_dataset)
+    negative_dataset = pd.DataFrame(negative_dataset)
+    negative_dataset.columns = ['Review']
+    negative_dataset['Label'] = ["neg" for i in range(1000)]
+    dataset = pd.concat([positive_dataset,negative_dataset],ignore_index=True,sort=False)
+    dataset = shuffle(dataset)
     return dataset

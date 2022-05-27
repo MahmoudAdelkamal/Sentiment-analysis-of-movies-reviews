@@ -9,27 +9,14 @@ from sklearn.metrics import classification_report
 from pre_processing import  *
 from Models import *
 
-def prepare_dataset():
+def dataset_statistics(dataset) :
 
-    positive_dataset, negative_dataset = load_dataset()
-    positive_dataset = preprocess(positive_dataset)
-    positive_dataset = pd.DataFrame(positive_dataset)
-    positive_dataset.columns = ['Review']
-    positive_dataset['Label'] = ["pos" for i in range(1000)]
-    negative_dataset = preprocess(negative_dataset)
-    negative_dataset = pd.DataFrame(negative_dataset)
-    negative_dataset.columns = ['Review']
-    negative_dataset['Label'] = ["neg" for i in range(1000)]
-    dataset = pd.concat([positive_dataset,negative_dataset],ignore_index=True,sort=False)
-    dataset = shuffle(dataset)
-    return dataset
+    print(dataset.head(5))
+    print('columns name : ', list(dataset.columns))
+    print('The size of dataset is : ', len(dataset))
 
 dataset = prepare_dataset()
-# dataset statistics
-print(dataset.head(5))
-print('columns name : ',list(dataset.columns))
-print('The size of dataset is : ',len(dataset))
-# training
+dataset_statistics(dataset)
 kf=KFold(n_splits=10,random_state=1,shuffle=True)
 Logistic_regression_accuracy = []
 svm_accuracy = []
