@@ -1,7 +1,6 @@
 import os
 import re
 from sklearn.utils import shuffle
-
 import pandas as pd
 import nltk
 from sklearn.model_selection import KFold
@@ -85,5 +84,4 @@ def prepare_dataset():
     negative_dataset.columns = ['Review']
     negative_dataset['Label'] = ["neg" for i in range(1000)]
     dataset = pd.concat([positive_dataset,negative_dataset],ignore_index=True,sort=False)
-    dataset = shuffle(dataset)
     return dataset
